@@ -1,0 +1,1 @@
+"""RecoHub application package."""
