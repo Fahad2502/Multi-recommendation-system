@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoHub - Sign In</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0a0e27;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #b8c5d6;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .auth-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .auth-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-label {
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            padding: 12px 16px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            color: var(--text-primary);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .btn-auth {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .btn-secondary-auth {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 12px 24px;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary-auth:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .auth-switch {
+            margin-top: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-switch a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            color: #f8d7da;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        .alert-success {
+            background: rgba(25, 135, 84, 0.2);
+            color: #d1e7dd;
+            border: 1px solid rgba(25, 135, 84, 0.3);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .home-link {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .home-link:hover {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-link">
+        <i class="fas fa-arrow-left"></i> Back to RecoHub
+    </a>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <i class="fas fa-compass"></i> RecoHub
+            </div>
+            <p class="auth-subtitle">Smart Cross-Domain Recommendations</p>
+
+            <!-- Sign In Form -->
+            <div id="signInForm">
+                <h3 class="mb-3" style="color: var(--text-primary);">Welcome Back</h3>
+                
+                <div id="signInAlert"></div>
+                
+                <form id="signInFormElement">
+                    <div class="form-group">
+                        <label class="form-label">Username or Email</label>
+                        <input type="text" class="form-control" id="signInUsername" 
+                               placeholder="Enter your username or email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="password-field">
+                            <input type="password" class="form-control" id="signInPassword" 
+                                   placeholder="Enter your password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('signInPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-auth" id="signInBtn">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    Don't have an account? 
+                    <a href="#" onclick="showSignUp()">Sign up here</a>
+                </div>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signUpForm" style="display: none;">
+                <h3 class="mb-3" style="color: var(--text-primary);">Create Account</h3>
+                
+                <div id="signUpAlert"></div>
+                
+                <form id="signUpFormElement">
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" id="signUpUsername" 
+                               placeholder="Choose a username" required minlength="3">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="signUpEmail" 
+                               placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="password-field">
+                            <input type="password" class="form-control" id="signUpPassword" 
+                                   placeholder="Create a password" required minlength="6">
+                            <button type="button" class="password-toggle" onclick="togglePassword('signUpPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <div class="password-field">
+                            <input type="password" class="form-control" id="signUpConfirmPassword" 
+                                   placeholder="Confirm your password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('signUpConfirmPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-auth" id="signUpBtn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                
+                <div class="auth-switch">
+                    Already have an account? 
+                    <a href="#" onclick="showSignIn()">Sign in here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle between sign in and sign up forms
+        function showSignUp() {
+            document.getElementById('signInForm').style.display = 'none';
+            document.getElementById('signUpForm').style.display = 'block';
+            clearAlerts();
+        }
+
+        function showSignIn() {
+            document.getElementById('signUpForm').style.display = 'none';
+            document.getElementById('signInForm').style.display = 'block';
+            clearAlerts();
+        }
+
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // Show alert
+        function showAlert(containerId, message, type = 'danger') {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="alert alert-${type}">
+                    <i class="fas fa-${type === 'danger' ? 'exclamation-circle' : 'check-circle'}"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        // Clear alerts
+        function clearAlerts() {
+            document.getElementById('signInAlert').innerHTML = '';
+            document.getElementById('signUpAlert').innerHTML = '';
+        }
+
+        // Sign In Form Handler
+        document.getElementById('signInFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('signInBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loading-spinner"></div>Signing In...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: document.getElementById('signInUsername').value,
+                        password: document.getElementById('signInPassword').value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store token
+                    localStorage.setItem('recohub_token', data.token);
+                    localStorage.setItem('recohub_user', JSON.stringify(data.user));
+                    
+                    showAlert('signInAlert', 'Sign in successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    showAlert('signInAlert', data.error || 'Sign in failed');
+                }
+            } catch (error) {
+                showAlert('signInAlert', 'Network error. Please try again.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        // Sign Up Form Handler
+        document.getElementById('signUpFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const password = document.getElementById('signUpPassword').value;
+            const confirmPassword = document.getElementById('signUpConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                showAlert('signUpAlert', 'Passwords do not match');
+                return;
+            }
+            
+            const btn = document.getElementById('signUpBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loading-spinner"></div>Creating Account...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: document.getElementById('signUpUsername').value,
+                        email: document.getElementById('signUpEmail').value,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store token
+                    localStorage.setItem('recohub_token', data.token);
+                    localStorage.setItem('recohub_user', JSON.stringify(data.user));
+                    
+                    showAlert('signUpAlert', 'Account created successfully! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    showAlert('signUpAlert', data.error || 'Registration failed');
+                }
+            } catch (error) {
+                showAlert('signUpAlert', 'Network error. Please try again.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        // Check if user is already logged in
+        if (localStorage.getItem('recohub_token')) {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
